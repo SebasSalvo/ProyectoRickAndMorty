@@ -6,7 +6,16 @@ import { useEffect ,useState} from "react";
 
 
 
-function Card({id,image,name,species,gender,onClose,addFavorite,removeFavorite}) {
+function Card({id,image,name,species,gender,onClose,addFavorite,removeFavorite, myFavorites}) {
+
+
+   useEffect(() => {
+      myFavorites.forEach((fav) => {
+         if (fav.id === id) {
+            setIsFav(true);
+         }
+      });
+   }, [myFavorites]);
 
    const [isFav,setIsFav] = useState(false);
 
@@ -52,7 +61,12 @@ const mapDispatchToProps = (dispatch)=> {
       
    }
 }
+const mapStateToProps = (state) => {
+return {
+   myFavorites: state.myFavorites
+}
+}
 
 
 
-export default connect(null,mapDispatchToProps)(Card);
+export default connect(mapStateToProps,mapDispatchToProps)(Card);
